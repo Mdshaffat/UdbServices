@@ -1,0 +1,95 @@
+﻿@model IEnumerable<UdbService.Models.Service>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Services" asp-action="Index">
+    <p>
+        @*<select asp-for="CategoryName" asp-items="Model.CategoryList">
+                    <option value="">All</option>
+                </select>
+            <select class=*@<!--"form-control" name="categorystring"></select>-->
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+
+
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*<dl class="row">
+                        <dd class="col-sm-6">
+                            @Html.DisplayFor(model => model.ImageName)
+                        </dd>
+                        <dd class="col-sm-6">
+                            <img src="@("~/Images/services/"+Model.ImageName)" asp-append-version="true" width="250px" height="250px" />
+                        </dd>
+                    </dl>*@
+                @*<img src="@("~/Images/services/"+Model.ImageName)" asp-append-version="true" width="250px" height="250px" />*@
+                @*<img src="@("~/Images/services/"+Model.ImageName)"
+                    class="rounded-circle"
+                    height="40" width="40"
+                    asp-append-version="true" />*@
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Images/services/@item.ImageName"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                    @*@Html.DisplayFor(modelItem => item.ImageName)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td>
+                    <details>
+                        <summary style="transition: transform .35s ease">Show Details</summary>
+                        <p style="transition: transform .35s ease">@Html.DisplayFor(modelItem => item.Details)</p>
+                    </details>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
