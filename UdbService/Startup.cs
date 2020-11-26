@@ -47,7 +47,8 @@ namespace UdbService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //.net 5 shows Warning for this
+                //app.UseDatabaseErrorPage();
             }
             else
             {
