@@ -17,10 +17,9 @@ namespace UdbService.Models
         [Display(Name = "Service Name")]
         [StringLength(60, MinimumLength = 3)]
         public string Name { get; set; }
+
         [Required(ErrorMessage = "Please Enter Service Price")]
-        
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         [Display(Name ="Image")]
         public string ImageName { get; set; }

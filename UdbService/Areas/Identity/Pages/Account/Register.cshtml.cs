@@ -60,6 +60,19 @@ namespace UdbService.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            //Property Extended By Developer
+            [Required(ErrorMessage = "Please Enter Your Full Name")]
+            [Display(Name = "Full Name")]
+            [StringLength(25, MinimumLength = 3, ErrorMessage = "String Length Must be 3-25")]
+            public string Name { get; set; }
+
+            [Display(Name = "City")]
+            [StringLength(30, MinimumLength = 3)]
+            public string City { get; set; }
+
+            [StringLength(300, MinimumLength = 15, ErrorMessage = "String Length Must be 15-300")]
+            public string Address { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
