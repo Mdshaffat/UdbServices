@@ -74,6 +74,9 @@ namespace UdbService.Areas.Identity.Pages.Account
 
             [StringLength(300, MinimumLength = 15, ErrorMessage = "String Length Must be 15-300")]
             public string Address { get; set; }
+            [Phone]
+            [Display(Name ="Phone Number")]
+            public string PhoneNumber { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -88,7 +91,7 @@ namespace UdbService.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, Address = Input.Address, City = Input.City, PhoneNumber = Input.PhoneNumber };
                 var result = await _userManager.CreateAsync((ApplicationUser)user, Input.Password);
                 if (result.Succeeded)
                 {
