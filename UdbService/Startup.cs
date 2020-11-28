@@ -32,7 +32,6 @@ namespace UdbService
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Identity
             services.AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

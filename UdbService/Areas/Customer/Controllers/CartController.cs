@@ -88,8 +88,9 @@ namespace UdbService.Areas.Customer.Controllers
                 //    Address = user.Address
 
                 //};
-
+                
                 var info =await GetCurrentUser();
+
                 
 
                 CartVM = new CartVM()
@@ -98,7 +99,7 @@ namespace UdbService.Areas.Customer.Controllers
                     {
                         Name = info.Name,
                         Email = info.Email,
-                        //Phone = info.PhoneNumber,
+                        Phone = info.PhoneNumber,
                         City = info.City,
                         Address = info.Address
                     },
@@ -174,6 +175,20 @@ namespace UdbService.Areas.Customer.Controllers
         {
             return await _userManager.GetUserAsync(HttpContext.User);
         }
+
+        
+        //private async Task<ApplicationUser> GetCurrentUserinfo()
+        //{
+
+        //    var info = await GetCurrentUser();
+
+        //    var userInfo = from u in _context.ApplicationUser
+        //                   where u.Id == info.Id
+        //                   select u;
+
+        //    return userInfo.;
+            
+        //}
 
     }
 }
