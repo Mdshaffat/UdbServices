@@ -97,6 +97,7 @@ namespace UdbService.Areas.Customer.Controllers
                 {
                     Order = new Models.Order()
                     {
+                        UserId = info.Id,
                         Name = info.Name,
                         Email = info.Email,
                         Phone = info.PhoneNumber,
@@ -106,7 +107,7 @@ namespace UdbService.Areas.Customer.Controllers
                     ServiceList = new List<Service>(),
                     
                 };
-
+                
 
                 List<int> sessionList = new List<int>();
                 sessionList = HttpContext.Session.GetObject<List<int>>(SD.SessionCart);

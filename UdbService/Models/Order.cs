@@ -12,9 +12,6 @@ namespace UdbService.Models
         [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
-
         [Required]
         [StringLength(50, MinimumLength =3, ErrorMessage ="String Length Must be 3-50 charecter")]
         [Display(Name="Name")]
@@ -27,7 +24,7 @@ namespace UdbService.Models
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [StringLength(300, MinimumLength = 10, ErrorMessage = "String Length Must be 10-300 charecter")]
+        [StringLength(300, MinimumLength = 2, ErrorMessage = "String Length Must be 10-300 charecter")]
         [Display(Name = "City")]
         public string City { get; set; }
         [Required]
