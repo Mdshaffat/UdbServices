@@ -13,6 +13,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UdbService.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity.UI.Services;
+//using WebPWrecover.Services;
+//using System.Net.Mail;
+
 
 namespace UdbService
 {
@@ -31,8 +38,32 @@ namespace UdbService
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Identity
-            services.AddDefaultIdentity<ApplicationUser>()
+            services.AddIdentity<ApplicationUser,IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            ////services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            ////        {
+            ////            options.LoginPath = new PathString("/Identity/Account/Login");
+            ////            //options.LogoutPath = "/Account/LogOff";
+            ////        });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+        .AddRazorPagesOptions(options =>
+        {
+            //options.AllowAreas = true;
+            options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+            options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+        });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            // using Microsoft.AspNetCore.Identity.UI.Services;
+            //services.AddSingleton<IEmailSender, EmailSender>();
+            //eND iDENTITY
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();

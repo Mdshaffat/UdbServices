@@ -5,8 +5,215 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<style>
+    body {
+        /*color: #fff;
+        background: #19aa8d;*/
+        font-family: 'Roboto', sans-serif;
+    }
 
-<div class="row">
+    .form-control {
+        font-size: 15px;
+    }
+
+        .form-control, .form-control:focus, .input-group-text {
+            border-color: #e1e1e1;
+        }
+
+    .form-control, .btn {
+        border-radius: 3px;
+    }
+
+    .signup-form {
+        width: 400px;
+        margin: 0 auto;
+        padding: 30px 0;
+    }
+
+        .signup-form form {
+            color: #999;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .signup-form h2 {
+            color: #333;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        .signup-form hr {
+            margin: 0 -30px 20px;
+        }
+
+        .signup-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .signup-form label {
+            font-weight: normal;
+            font-size: 15px;
+        }
+
+        .signup-form .form-control {
+            min-height: 38px;
+            box-shadow: none !important;
+        }
+
+        .signup-form .input-group-addon {
+            max-width: 42px;
+            text-align: center;
+        }
+
+        .signup-form .btn, .signup-form .btn:active {
+            font-size: 16px;
+            font-weight: bold;
+            /*background: #19aa8d !important;*/
+            border: none;
+            min-width: 140px;
+        }
+
+            .signup-form .btn:hover, .signup-form .btn:focus {
+                /*background: #179b81 !important;*/
+            }
+
+/*        .signup-form a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+            .signup-form a:hover {
+                text-decoration: none;
+            }
+
+        .signup-form form a {
+            color: #19aa8d;
+            text-decoration: none;
+        }
+
+            .signup-form form a:hover {
+                text-decoration: underline;
+            }*/
+
+        .signup-form .fa {
+            font-size: 21px;
+        }
+
+        .signup-form .fa-paper-plane {
+            font-size: 18px;
+        }
+
+        .signup-form .fa-check {
+            color: #fff;
+            left: 17px;
+            top: 18px;
+            font-size: 7px;
+            position: absolute;
+        }
+</style>
+
+<body>
+    <div class="signup-form">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Sign Up</h2>
+            <p>Please fill in this form to create an account!</p>
+            <hr>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <span class="fa fa-user"></span>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Name" type="text" class="form-control" name="username" placeholder="Username" required="required">
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-paper-plane"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Email" type="email" class="form-control" name="email" placeholder="Email Address" required="required">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-city"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.City" type="text" class="form-control" name="City" placeholder="City">
+                    <span asp-validation-for="Input.City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-address-card"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Address" type="text" class="form-control" name="Address" placeholder="Address">
+                    <span asp-validation-for="Input.Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fal fa-phone-square-alt"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.PhoneNumber" type="tel" class="form-control" name="PhoneNumber" placeholder="PhoneNumber" required="required">
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Password" type="text" class="form-control" name="password" placeholder="Password" required="required">
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.ConfirmPassword" type="text" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+            </div>
+        </form>
+        
+        <div class="text-center" >Already have an account? <a asp-page="./Login">Login here</a></div>
+    </div>
+</body>
+
+<!--<div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
@@ -49,38 +256,38 @@
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
-    </div>
+    </div>-->
     @*<div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+            <section>
+                <h4>Use another service to register.</h4>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
                         <div>
                             <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
                             </p>
                         </div>
-                    </form>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
                 }
-            }
-        </section>
-    </div>*@
-</div>
+            </section>
+        </div>*@
+<!--</div>-->
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

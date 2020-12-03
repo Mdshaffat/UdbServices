@@ -61,31 +61,29 @@
                     @if (HttpContextAccessor.HttpContext.Session.GetObject<List<int>>(SD.SessionCart) != null)
                     {
 
-                <li class="nav-item">
-                    <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link waves-effect">
-                        @{ var count = HttpContextAccessor.HttpContext.Session.GetObject<List<int>>(SD.SessionCart).Count;}
-                                                <span class="badge red z-depth-1 mr-1"> (@count) </span>
-                                    <i class="fas fa-shopping-cart"></i>
-                                                    <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                                                                </a>
-                </li>
-                                @*<li style="color:white">
-                                    <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-white">
-                                        @{ var count = HttpContextAccessor.HttpContext.Session.GetObject<List<int>>(SD.SessionCart).Count; }
-                                        <i class="fas fa-shopping-cart"></i>&nbsp; (@count)
-                                    </a>
-                                </li>*@
-
- }
-                                            else
-                                            {
-                                <li class="nav-item">
-                                    <a class="nav-link waves-effect">
-                                        <span class="badge red z-depth-1 mr-1"> 0 </span>
-                                        <i class="fas fa-shopping-cart"></i>
-                                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                                    </a>
-                                </li>}
+        <li class="nav-item">
+            <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link waves-effect">
+                @{ var count = HttpContextAccessor.HttpContext.Session.GetObject<List<int>>(SD.SessionCart).Count;}
+                <span class="badge red z-depth-1 mr-1"> (@count) </span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+            </a>
+        </li>
+        @*<li style="color:white">
+                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-white">
+                    @{ var count = HttpContextAccessor.HttpContext.Session.GetObject<List<int>>(SD.SessionCart).Count; }
+                    <i class="fas fa-shopping-cart"></i>&nbsp; (@count)
+                </a>
+            </li>*@ }
+    else
+    {
+<li class="nav-item">
+    <a class="nav-link waves-effect">
+        <span class="badge red z-depth-1 mr-1"> 0 </span>
+        <i class="fas fa-shopping-cart"></i>
+        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+    </a>
+</li>}
 
                     <li class="nav-item">
                         <a href="#" class="nav-link waves-effect" target="_blank">
@@ -110,8 +108,10 @@
     </nav>
     <!-- Navbar -->
     <!--Body Goes Here-->
-
-    @RenderBody()
+    <div>
+        @RenderBody()
+    </div>
+    
 
     <!--Footer-->
     <footer class="page-footer text-center font-small mt-4 wow fadeIn">
@@ -184,11 +184,16 @@
     <script type="text/javascript" src="~/Customer/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="~/Customer/js/mdb.min.js"></script>
+    <script type="text/javascript" src="https://kit.fontawesome.com/2057e9b7ae.js"></script>
+
     <!-- Initializations -->
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
     </script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>
