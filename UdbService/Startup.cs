@@ -40,12 +40,7 @@ namespace UdbService
             //Identity
             services.AddIdentity<ApplicationUser,IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            ////services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-            ////        {
-            ////            options.LoginPath = new PathString("/Identity/Account/Login");
-            ////            //options.LogoutPath = "/Account/LogOff";
-            ////        });
-
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
         .AddRazorPagesOptions(options =>
         {
@@ -73,7 +68,7 @@ namespace UdbService
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            //services.AddIdentity<IdentityUser, IdentityRole>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
