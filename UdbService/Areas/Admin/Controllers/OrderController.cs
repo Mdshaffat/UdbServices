@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,12 @@ namespace UdbService.Areas.Admin.Controllers
             _context = context;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var AllOrder = _context.Order.ToList();
+            var Order = from o in _context.Order select o;
+            var allOrder = await Order.ToListAsync();
            
-            return View(AllOrder);
+            return View(allOrder);
         }
 
 
@@ -38,7 +40,7 @@ namespace UdbService.Areas.Admin.Controllers
             return View(orderVM);
         }
 
-        public IActionResult Approve(int id)
+        public IActionResult Approve(int? id)
         {
             var orderFromDb = _context.Order.FirstOrDefault(o => o.Id == id);
             if (orderFromDb == null)
@@ -46,11 +48,12 @@ namespace UdbService.Areas.Admin.Controllers
                 return NotFound();
             }
             orderFromDb.Status = SD.StatusApproved;
+            
             _context.SaveChanges();
-            return View(nameof(Index));
+            return RedirectToAction("Index", "Order");
         }
 
-        public IActionResult Reject(int id, string status)
+        public IActionResult Reject(int? id)
         {
             var orderFromDb = _context.Order.FirstOrDefault(o => o.Id == id);
             if (orderFromDb == null)
@@ -59,10 +62,29 @@ namespace UdbService.Areas.Admin.Controllers
             }
             orderFromDb.Status = SD.StatusRejected;
             _context.SaveChanges();
-            return View(nameof(Index));
+            return RedirectToAction("Index", "Order");
         }
-       
 
+        public IActionResult PendingIndex()
+        {
+            var AllOrder = from o in _context.Order select o;
+            var AllpendingOrder = AllOrder.Where(o => o.Status == SD.StatusSubmitted);
 
+            return View(AllpendingOrder);
+        }
+        public IActionResult ApprovedIndex()
+        {
+            var AllOrder = from o in _context.Order select o;
+            var AllApprovedOrder = AllOrder.Where(o => o.Status == SD.StatusApproved);
+
+            return View(AllApprovedOrder);
+        }
+        public IActionResult RejectIndex()
+        {
+            var AllOrder = from o in _context.Order select o;
+            var AllApprovedOrder = AllOrder.Where(o => o.Status == SD.StatusRejected);
+
+            return View(AllApprovedOrder);
+        }
     }
 }

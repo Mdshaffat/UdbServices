@@ -1,0 +1,124 @@
+﻿@model IEnumerable<UdbService.Models.Order>
+    @using UdbService.Utility
+
+    @{
+    var status = Context.Request.Query["status"];
+
+    var approved = "text-primary";
+    var pending = "text-primary";
+    var reject = "text-primary";
+var all = "text-primary";
+
+    if (status == "approved")
+    {
+        approved = "active text-white";
+    }
+    else
+    {
+        if (status == "pending")
+        {
+            pending = "active text-white";
+        }
+        else
+        {
+            if (status == "reject")
+            {
+                reject = "active text-white";
+            }
+            else
+            {
+                all = "active text-white";
+            }
+        }
+    }
+
+    }
+
+    <div class="border backgroundWhite p-3">
+        <div class="d-flex justify-content-between mb-3">
+            <div class="p-2">
+                <h2 class="text-primary">Order's List</h2>
+            </div>
+            <div class="p-2">
+                <ul class="list-group list-group-horizontal-sm">
+                    <a style="text-decoration:none" asp-controller="Order" asp-route-status="pending" asp-action="PendingIndex">
+                        <li class="list-group-item @pending">Pending</li>
+                    </a>
+                    <a style="text-decoration:none" asp-controller="Order" asp-route-status="approved" asp-action="ApprovedIndex">
+                        <li class="list-group-item @approved">Approved</li>
+                    </a>
+                    <a style="text-decoration:none" asp-controller="Order" asp-route-status="reject" asp-action="RejectIndex">
+                        <li class="list-group-item @reject">Reject</li>
+                    </a>
+                    <a style="text-decoration:none" asp-controller="Order" asp-route-status="all" asp-action="Index">
+                        <li class="list-group-item @all">All</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <br /><br />
+        <table id="tblData" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>OrderId</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Count</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+
+            {
+
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <a asp-action="Details" asp-route-id="@item.Id" class='btn btn-success text-white' style='cursor:pointer; width:100px;'>
+                                <i class='far fa-edit'></i> Details
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+                }
+            }
+            else
+            {
+                <p>No order Found</p>
+            }
+            </tbody>
+        </table>
+
+
+    </div>
+
+    @section Scripts{
+        <script src="~/js/orders.js"></script>
+    }

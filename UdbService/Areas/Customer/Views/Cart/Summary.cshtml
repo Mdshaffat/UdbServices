@@ -29,6 +29,7 @@
                                       <span class="text-primary">PickUp Details:</span>
                                   </h4>
                               </div>
+                              <input asp-for="Order.UserId"  hidden />
                               <div class="row my-1">
                                   <div class="col-3">
                                       <label>Name</label>
@@ -65,7 +66,7 @@
                                       <span asp-validation-for="Order.City" class="text-danger"></span>
                                   </div>
                               </div>
-                              
+
                               <div class="row my-1">
                                   <div class="col-3">
                                       <label>Email</label>
