@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using UdbService.Services;
+using IdentityManager.Service;
+using Uplift.DataAccess.Data.Initializer;
 //using WebPWrecover.Services;
 //using System.Net.Mail;
 
@@ -39,8 +42,15 @@ namespace UdbService
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Identity
             services.AddIdentity<ApplicationUser,IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-           
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+            services.AddHttpContextAccessor();
+            //services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+
+            //mailjet
+           //services.AddTransient<IEmailSender, MailJetEmailSender>();
+            //services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
         .AddRazorPagesOptions(options =>
         {
@@ -68,11 +78,11 @@ namespace UdbService
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            
+            services.AddScoped<IDbInitializer, DbInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInit)
         {
             if (env.IsDevelopment())
             {
@@ -93,7 +103,7 @@ namespace UdbService
             app.UseCookiePolicy();
 
             app.UseRouting();
-
+            dbInit.Initialize();
             app.UseAuthentication();
             app.UseAuthorization();
 

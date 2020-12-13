@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using UdbService.Utility;
 
 namespace UdbService.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class OrderController : Controller
 
@@ -34,7 +36,7 @@ namespace UdbService.Areas.Admin.Controllers
             OrderViewModel orderVM = new OrderViewModel()
             {
                 Order = _context.Order.Find(id),
-                OrderDetails = _context.OrderDetails.Where(o=>o.Id == id).ToList()
+                OrderDetails = _context.OrderDetails.Where(o=>o.OrderId == id).ToList()
 
             };
             return View(orderVM);

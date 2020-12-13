@@ -37,6 +37,9 @@ namespace UdbService.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            public string Email { get; set; }
+            [Display(Name = "User Name ")]
+            public string UserName { get; set; }
             public string Name { get; set; }
             [Phone]
             [Display(Name = "Phone number")]
@@ -52,6 +55,11 @@ namespace UdbService.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var applicationuser =  _context.ApplicationUser.Where(u => u.Id == user.Id);
+            var city = user.City;
+            var address = user.Address;
+            var name = user.Name;
+            
             
             
 
@@ -59,14 +67,18 @@ namespace UdbService.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                
-                PhoneNumber = phoneNumber
+                UserName = userName,
+                Name = name,
+                PhoneNumber = phoneNumber,
+                City = city,
+                Address = address
             };
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -100,7 +112,28 @@ namespace UdbService.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-
+            var city = user.City;
+            if (Input.City != city)
+            {
+                user.City = Input.City;
+                var setCity =await _userManager.UpdateAsync(user);
+                if (!setCity.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set City number.";
+                    return RedirectToPage();
+                }
+            }
+            var address = user.Address;
+            if (Input.Address != address)
+            {
+                user.Address = Input.Address;
+                var setAddress = await _userManager.UpdateAsync(user);
+                if (!setAddress.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set Address number.";
+                    return RedirectToPage();
+                }
+            }
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

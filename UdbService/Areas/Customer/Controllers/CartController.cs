@@ -119,6 +119,8 @@ namespace UdbService.Areas.Customer.Controllers
             return View(CartVM);
         }
 
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
