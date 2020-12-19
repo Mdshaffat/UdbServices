@@ -3,11 +3,19 @@
 
     var query = Model.GroupBy(service => service.ServiceName).OrderByDescending(group => group.Count()).Take(5).ToList();
 
+    var query1 = Model.GroupBy(service => service.ServiceName).OrderByDescending(group => group.Sum(s => s.Price)).Take(5).ToList();
+
     double TotalPrice = 0;
+    int count = 0;
 
     foreach (var item in Model)
     {
         TotalPrice += item.Price;
+
+    }
+    foreach (var item in Model)
+    {
+        count++;
 
     }
 
@@ -16,7 +24,41 @@
 
 <html>
 <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="~/js/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawStuff);
+
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable([
+                ['Service Name', 'TotalOrder'],
+                @foreach (var record in query1) {
+                   <text> ["@record.Key",@record.Sum(c=>c.Price)], </text>
+
+                 }
+
+            ]);
+
+            var options = {
+                width: 800,
+                legend: { position: 'none' },
+                chart: {
+                    title: 'Top Services',
+                    subtitle: 'Order by Amount'
+                },
+                axes: {
+                    x: {
+                        0: { side: 'top', label: 'Services' } // Top x-axis.
+                    }
+                },
+                bar: { groupWidth: "90%" }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('top_y_div'));
+            // Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+    </script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['bar'] });
         google.charts.setOnLoadCallback(drawStuff);
@@ -36,7 +78,7 @@
                 legend: { position: 'none' },
                 chart: {
                     title: 'Top Services',
-                    subtitle: 'popularity by Count'
+                    subtitle: 'Order by Count'
                 },
                 axes: {
                     x: {
@@ -55,18 +97,36 @@
 <body>
     <div class="row">
         <div class="col-3">
-            <h1 class="bg-success">Total Sell&nbsp; <i class="fas fa-smile"></i></h1>
-            <h2 class="btn-block box box-shadow bg-info float-right"> =&nbsp; $ @TotalPrice</h2>
+
+            <div class="row">
+                <h1 class="bg-success">Total Sells Count&nbsp; <i class="fas fa-smile"></i></h1>
+                <h2 class="btn-block box box-shadow bg-info float-right"> =&nbsp; $ @count</h2>
+            </div>
+            <br />
         </div>
-        
         <div class="col-9">
             <div id="top_x_div" style="width: 800px; height: 600px;"></div>
         </div>
     </div>
-    
-    <br />
-    <br />
-    
+
+ <br />
+    <div class="row">
+
+    </div>
+ <br />
+    <div class="row">
+        <div class="col-3">
+            <div class="row">
+                <h1 class="bg-success">Total Sells Price&nbsp; <i class="fas fa-smile"></i></h1>
+                <h2 class="btn-block box box-shadow bg-info float-right"> =&nbsp; $ @TotalPrice</h2>
+            </div>
+        </div>
+        <div class="col-9">
+            <div id="top_y_div" style="width: 800px; height: 600px;"></div>
+        </div>
+    </div>
+
+
 </body>
 </html>
 

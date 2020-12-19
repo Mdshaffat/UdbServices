@@ -98,7 +98,7 @@ namespace UdbService.Areas.Identity.Pages.Account
                 else
                 {
                     //ModelState.AddModelError("NotMached", "Email And Password Mot matched");
-                    ViewData["NotMached"] = "Email And Password Are Not matched";
+                    ViewData["NotMached"] = "Email or Password Incorrect";
                     return Page();
                 }
             }
